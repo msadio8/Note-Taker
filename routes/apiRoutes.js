@@ -1,12 +1,12 @@
 const fs = require("fs");
 
-const uniqid = require("uniqid");
+var uniqid = require("uniqid");
 
 module.exports = function (app) {
   app.get("/api/notes", (req, res) => {
-    console.log("execute GET new notes request");
+    console.log("Request executed 👍!");
 
-    const data = fs.readFile("./db/db.json", "utf8");
+    let data = fs.readFileSync("./db/db.json", "utf8");
 
     res.json(JSON.parse(data));
   });
@@ -20,28 +20,28 @@ module.exports = function (app) {
     console.log("Post request for new notes");
 
     // here read data from JSON file
-    const data = fs.readFileSync("./db/db.json", "utf8");
+    let data = fs.readFileSync("./db/db.json", "utf-8");
 
     const dataJSON = JSON.parse(data);
 
     //new notes added db.json
     dataJSON.push(newNote);
 
-    fs.writeFile("./db/db.json", JSON.stringify(data.JSON), (err, text) => {
+    fs.writeFile("./db/db.json", JSON.stringify(dataJSON), (err, text) => {
       if (err) {
-        console.log(err);
+        console.error(err);
         return;
       }
-      console.log("Welcome", text);
+      console.log("Success 🥳!");
     });
 
-    console.log("New note added!");
+    console.log("New note added");
 
     res.json(data);
   });
 
   app.delete("/api/notes/:id", (req, res) => {
-    const data = fs.readFileSync("./db/db.json", "utf8");
+    let data = fs.readFileSync("./db/db.json", "utf8");
 
     const dataJSON = JSON.parse(data);
 
@@ -51,10 +51,11 @@ module.exports = function (app) {
 
     fs.writeFile("./db/db.json", JSON.stringify(newNote), (err, text) => {
       if (err) {
-        console.err(err);
+        console.error(err);
         return;
       }
     });
-    res.json(newNotes);
+
+    res.json(newNote);
   });
 };
