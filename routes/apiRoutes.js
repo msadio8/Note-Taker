@@ -1,4 +1,3 @@
-const { text } = require("express");
 const fs = require("fs");
 
 const uniqid = require("uniqid");
@@ -7,7 +6,7 @@ module.exports = function (app) {
   app.get("/api/notes", (req, res) => {
     console.log("execute GET new notes request");
 
-    let data = fs.readFile("./db/db.json", "utf8");
+    const data = fs.readFile("./db/db.json", "utf8");
 
     res.json(JSON.parse(data));
   });
@@ -21,7 +20,7 @@ module.exports = function (app) {
     console.log("Post request for new notes");
 
     // here read data from JSON file
-    let data = fs.readFileSync("./db/db.json", "utf8");
+    const data = fs.readFileSync("./db/db.json", "utf8");
 
     const dataJSON = JSON.parse(data);
 
